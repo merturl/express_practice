@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "commonjs",
+      "lib": ["esnext"],
+      "jsx": "preserve",
+      "sourceMap": true,
+      "outDir": "./dist",
+      "rootDir": ".",
+      "strict": true,
+      "noImplicitAny": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+  }

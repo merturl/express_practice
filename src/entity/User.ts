@@ -23,30 +23,19 @@ export default class User {
   @Column({ length: 255 })
   password!: string;
 
-  async generateUserToken() {
+  generateUserToken() {
     // refresh token is valid for 30days
-    const refreshToken = await generateToken(
+    const accessToken = generateToken(
       {
-        user_id: this.id,
-      },
-      {
-        subject: "refresh_token",
-        expiresIn: "30d",
-      }
-    );
-
-    const accessToken = await generateToken(
-      {
-        user_id: this.id,
+        id: this.id,
       },
       {
         subject: "access_token",
-        expiresIn: "1h",
+        expiresIn: "7d",
       }
     );
 
     return {
-      refreshToken,
       accessToken,
     };
   }

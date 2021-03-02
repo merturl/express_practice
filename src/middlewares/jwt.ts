@@ -10,29 +10,33 @@ type TokenData = {
 };
 
 const jwtMiddleware: RequestHandler = (req, res, next) => {
-  const { token } = req.cookies;
-  if (!token) return next();
+  const { accessToken } = req.cookies;
+  console.log(accessToken);
+  if (!accessToken) {
+    req.user = null;
+    return next();
+  }
+
   try {
-    const decoded = decodeToken<TokenData>(token);
+    const decoded = decodeToken<TokenData>(accessToken);
     const diff = decoded.exp * 1000 - new Date().getTime();
-    if (diff < 1000 * 60 * 30) {
+    if (diff < 1000 * 60 * 30 * 24 * 3) {
       const newToken = generateToken(
         { username: decoded.username },
         {
-          expiresIn: "1h",
+          expiresIn: "7d",
         }
       );
-      res.cookie("token", newToken, {
+      res.cookie("accessToken", newToken, {
         httpOnly: true,
-        maxAge: 1000 * 60 * 60,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
       });
     }
     req.user = decoded;
-    return next();
   } catch (error) {
     req.user = null;
-    return next(error);
   }
+  return next();
 };
 
 export default jwtMiddleware;

@@ -12,8 +12,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use(jwtMiddleware);
-app.use(api);
-app.use("*", notFoundMiddleware);
+app.use("/api", api);
+app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
 export default app;

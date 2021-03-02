@@ -16,7 +16,8 @@ function errorMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  res.status(500).json({ message: error.message });
+  console.log("@@@@@@@@@@@ERRORMILL@@@@@@@@@@@@@@");
+  return res.status(500).json({ message: error.message });
 }
 
 export default errorMiddleware;

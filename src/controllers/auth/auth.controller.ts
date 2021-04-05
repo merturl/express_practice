@@ -98,7 +98,6 @@ export const check: RequestHandler = async (req, res, next) => {
     res.clearCookie("accessToken");
     return res.status(401).json();
   }
-  console.log(existUser);
   return res.status(200).json({
     user: {
       id: existUser.id,
@@ -109,5 +108,5 @@ export const check: RequestHandler = async (req, res, next) => {
 
 export const logout: RequestHandler = async (req, res, next) => {
   res.clearCookie("accessToken");
-  return res.status(204).json();
+  return res.status(204).json({user: null});
 };

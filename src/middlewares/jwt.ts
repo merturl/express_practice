@@ -11,7 +11,6 @@ type TokenData = {
 
 const jwtMiddleware: RequestHandler = (req, res, next) => {
   const { accessToken } = req.cookies;
-  console.log(accessToken);
   if (!accessToken) {
     req.user = null;
     return next();

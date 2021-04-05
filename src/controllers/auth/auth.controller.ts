@@ -83,6 +83,26 @@ export const register: RequestHandler = async (req, res, next) => {
   }
 };
 
+export const unregister: RequestHandler = async (req, res, next) => {
+  const { user } = req.body;
+  console.log(user);
+  if (!user) {
+    return res.status(401).json();
+  }
+  const userRepo = getRepository(User);
+  const existUser = await userRepo.findOne({
+    where: {
+      id: user.id,
+    },
+  });
+  if (!existUser) {
+    return res.status(401).json();
+  }
+  res.clearCookie("accessToken");
+  await userRepo.delete({ id: user.id });
+  return res.status(200).json({ user: null });
+};
+
 export const check: RequestHandler = async (req, res, next) => {
   const { user } = req;
   if (!user) {
@@ -108,5 +128,5 @@ export const check: RequestHandler = async (req, res, next) => {
 
 export const logout: RequestHandler = async (req, res, next) => {
   res.clearCookie("accessToken");
-  return res.status(204).json({user: null});
+  return res.status(204).json({ user: null });
 };

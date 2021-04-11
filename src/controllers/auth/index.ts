@@ -1,6 +1,13 @@
 import { Router } from "express";
 import wrapAsync from "../../utlis/async";
-import { check, login, logout, register, unregister, validate } from "./auth.controller";
+import {
+  check,
+  login,
+  logout,
+  register,
+  unregister,
+  validate,
+} from "./auth.controller";
 
 const auth = Router();
 

@@ -1,12 +1,15 @@
 import {
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import Song from "./Song";
 import User from "./User";
+
+//Rename Game to Topic
 
 @Entity()
 export default class Game {
@@ -18,4 +21,16 @@ export default class Game {
 
   @ManyToOne((type) => User, { cascade: true, eager: true })
   user!: User;
+
+  @ManyToMany((type) => Song)
+  @JoinTable({
+    name: 'game_songs',
+    joinColumn: {
+      name: 'fk_game_id'
+    },
+    inverseJoinColumn: {
+      name: 'fk_song_id'
+    }
+  })
+  songs!: Song[];
 }

@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import Game from "./Game";
+import User from "./User";
 
 @Entity()
 export default class Song {
@@ -12,6 +12,6 @@ export default class Song {
   @Column({ length: 255 })
   url!: string;
 
-  @ManyToOne((type) => Game, { cascade: true })
-  game!: Game;
+  @ManyToOne((type) => User, { cascade: true, eager: true })
+  user!: User;
 }

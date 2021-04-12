@@ -26,37 +26,18 @@ export const register: RequestHandler = async (req, res, next) => {
     return res.status(401).json();
   }
   game.user = user;
+  game.songs = [];
   for (const { title, url } of songs) {
     const song = new Song();
     song.title = title;
     song.url = url;
-    song.game = game;
+    song.user = user;
+    
     await songRepo.save(song);
+    game.songs.push(song);
   }
+  await gameRepo.save(game);
   return res.status(200).json();
-
-  // if (userDuplicate) {
-  //   return res.status(500).json();
-  // }
-
-  // const user = new Game();
-
-  // await userRepo.save(user);
-  // try {
-  //   const { accessToken } = user.generateUserToken();
-  //   res.cookie("accessToken", accessToken, {
-  //     httpOnly: true,
-  //     maxAge: 1000 * 60 * 60 * 24 * 7,
-  //   });
-  //   return res.status(201).json({
-  //     user: {
-  //       id: user.id,
-  //       username: user.username,
-  //     },
-  //   });
-  // } catch (error) {
-  //   next(error);
-  // }
 };
 
 export const deleteSongs: RequestHandler = async (req, res, next) => {

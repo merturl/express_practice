@@ -10,9 +10,9 @@ const connectionOptions: ConnectionOptions = {
   logging: false,
   entities,
   host: process.env.DB_ENDPOINT,
-  port: 32768,
-  username: process.env.DB_USERNAME || "postgres",
-  password: process.env.DB_PASSWORD || "123123",
+  port: 5432,
+  username: process.env.DB_USERNAME || "merturl",
+  password: process.env.DB_PASSWORD || "merturl",
 };
 
 export default connectionOptions;

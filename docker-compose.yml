@@ -1,14 +1,24 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.1"
 services:
   db:
-    container_name: postgresql_database
+    container_name: pg_container
     image: postgres
     restart: always
-    volumes:
-      - ./postgresql/data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_PASSWORD: 123123
-      
+      POSTGRES_USER: merturl
+      POSTGRES_PASSWORD: merturl
+      POSTGRES_DB: merturl
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin@admin.com
+    ports:
+      - "5050:80"

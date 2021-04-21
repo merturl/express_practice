@@ -5,7 +5,7 @@ import entities from "./entity";
 
 const connectionOptions: ConnectionOptions = {
   type: "postgres",
-  database: "postgres",
+  database: "merturl",
   synchronize: true,
   logging: false,
   entities,

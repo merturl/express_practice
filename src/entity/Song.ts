@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import Topic from './Topic';
+import Topic from "./Topic";
 
 @Entity()
 export default class Song {
@@ -12,6 +12,6 @@ export default class Song {
   @Column({ length: 255 })
   url!: string;
 
-  @ManyToOne((type) => Topic, { cascade: true, eager: true })
+  @ManyToOne((type) => Topic, (topic) => topic.songs)
   topic!: Topic;
 }

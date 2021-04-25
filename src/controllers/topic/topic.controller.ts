@@ -70,7 +70,7 @@ export const readAllTopic: RequestHandler = async (req, res, next) => {
 export const readOneTopic: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
   const topicRepo = getRepository(Topic);
-  const topic = await topicRepo.find({
+  const topic = await topicRepo.findOne({
     select: ["id", "title"],
     join: {
       alias: "topics",
@@ -78,6 +78,7 @@ export const readOneTopic: RequestHandler = async (req, res, next) => {
         songs: "topics.songs",
       },
     },
+    where: { id: id },
   });
-  res.status(200).json({ topic: topic });
+  res.status(200).json({ topic: [topic] });
 };

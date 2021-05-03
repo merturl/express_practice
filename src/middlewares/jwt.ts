@@ -12,6 +12,7 @@ type TokenData = {
 const jwtMiddleware: RequestHandler = (req, res, next) => {
   const { accessToken } = req.cookies;
   if (!accessToken) {
+    console.log("accessToken is null!!!!!");
     req.user = null;
     return next();
   }
@@ -20,6 +21,7 @@ const jwtMiddleware: RequestHandler = (req, res, next) => {
     const decoded = decodeToken<TokenData>(accessToken);
     const diff = decoded.exp * 1000 - new Date().getTime();
     if (diff < 1000 * 60 * 30 * 24 * 3) {
+      console.log("date is expired");
       const newToken = generateToken(
         { username: decoded.username },
         {
@@ -31,8 +33,10 @@ const jwtMiddleware: RequestHandler = (req, res, next) => {
         maxAge: 1000 * 60 * 60 * 24 * 7,
       });
     }
+    console.log("is OK");
     req.user = decoded;
   } catch (error) {
+    console.log("ERROR!!!!");
     req.user = null;
   }
   return next();

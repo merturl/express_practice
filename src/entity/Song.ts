@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import Topic from "./Topic";
 
 @Entity()
@@ -13,5 +19,6 @@ export default class Song {
   url!: string;
 
   @ManyToOne((type) => Topic, (topic) => topic.songs)
+  @JoinColumn({ name: "topic_id" })
   topic!: Topic;
 }

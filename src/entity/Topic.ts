@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -17,6 +18,7 @@ export default class Topic {
   title!: string;
 
   @ManyToOne((type) => User, { cascade: true, eager: true })
+  @JoinColumn({ name: "user_id" })
   user!: User;
   @OneToMany((type) => Song, (song) => song.topic)
   songs!: Song[];

@@ -1,15 +1,15 @@
 import { Router } from "express";
 import wrapAsync from "../../utlis/async";
-import { readAllTopic, readOneTopic, writeTopic } from "./topic.controller";
+import { readAllQuiz, readOneQuiz, writeQuiz } from "./quiz.controller";
 // import { check, login, logout, register, unregister, validate } from "./auth.controller";
 
-const topic = Router();
+const quiz = Router();
 
 // post.post("/login", validate, wrapAsync(login));
-topic.post("/", wrapAsync(writeTopic));
-topic.get("/", wrapAsync(readAllTopic));
-topic.get("/:id", wrapAsync(readOneTopic));
+quiz.post("/", wrapAsync(writeQuiz));
+quiz.get("/", wrapAsync(readAllQuiz));
+quiz.get("/:id", wrapAsync(readOneQuiz));
 // post.get("/check", wrapAsync(check));
 // post.get("/logout", wrapAsync(logout));
 
-export default topic;
+export default quiz;

@@ -7,6 +7,7 @@ export const validate: RequestHandler = (req, res, next) => {
   const schema = Joi.object().keys({
     username: Joi.string().alphanum().min(4).max(15).required(),
     password: Joi.string().required().min(6),
+    confirmPassword: Joi.string().required().valid(Joi.ref("password")),
   });
   const { error } = schema.validate(req.body);
   if (error) return res.status(403).json();

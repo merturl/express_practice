@@ -10,7 +10,7 @@ import Song from "./Song";
 import User from "./User";
 
 @Entity()
-export default class Topic {
+export default class Quiz {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -20,6 +20,6 @@ export default class Topic {
   @ManyToOne((type) => User, { cascade: true, eager: true })
   @JoinColumn({ name: "user_id" })
   user!: User;
-  @OneToMany((type) => Song, (song) => song.topic)
+  @OneToMany((type) => Song, (song) => song.quiz)
   songs!: Song[];
 }

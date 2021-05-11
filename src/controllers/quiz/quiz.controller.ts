@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { getRepository } from "typeorm";
-import Topic from "../../entity/Topic";
+import Quiz from "../../entity/Quiz";
 import Song from "../../entity/Song";
 import User from "../../entity/User";
 
@@ -9,39 +9,39 @@ interface dto {
   songs: { title: string; url: string }[];
 }
 
-export const writeTopic: RequestHandler = async (req, res, next) => {
+export const writeQuiz: RequestHandler = async (req, res, next) => {
   const { title, songs } = <dto>req.body;
-  const topicRepo = getRepository(Topic);
+  const quizRepo = getRepository(Quiz);
   const userRepo = getRepository(User);
   const songRepo = getRepository(Song);
-  const topic = new Topic();
+  const quiz = new Quiz();
   const user = await userRepo.findOne({
     where: {
       id: req.user.id,
     },
   });
-  topic.title = title;
+  quiz.title = title;
   if (!user) {
     return res.status(401).json();
   }
-  topic.user = user;
-  topic.songs = [];
+  quiz.user = user;
+  quiz.songs = [];
   for (const { title, url } of songs) {
     const song = new Song();
     song.title = title;
     song.url = url;
-    topic.songs.push(song);
+    quiz.songs.push(song);
     await songRepo.save(song);
   }
-  await topicRepo.save(topic);
-  return res.status(200).json({ topic });
+  await quizRepo.save(quiz);
+  return res.status(200).json({ quiz });
 };
 
 export const deleteSongs: RequestHandler = async (req, res, next) => {
   const { title, songs } = req.body;
-  const topicRepo = getRepository(Topic);
+  const quizRepo = getRepository(Quiz);
   const userRepo = getRepository(User);
-  const game = new Topic();
+  const game = new Quiz();
   const user = await userRepo.findOne({
     where: {
       id: req.user.id,
@@ -49,30 +49,30 @@ export const deleteSongs: RequestHandler = async (req, res, next) => {
   });
   game.title = title;
   if (user) game.user = user;
-  await topicRepo.save(game);
+  await quizRepo.save(game);
   res.status(200).json();
 };
 
-export const readAllTopic: RequestHandler = async (req, res, next) => {
-  const topicRepo = getRepository(Topic);
-  const topic = await topicRepo.find({
+export const readAllQuiz: RequestHandler = async (req, res, next) => {
+  const quizRepo = getRepository(Quiz);
+  const quizzes = await quizRepo.find({
     select: ["id", "title"],
   });
-  res.status(200).json({ topic: topic });
+  res.status(200).json({ quizzes });
 };
 
-export const readOneTopic: RequestHandler = async (req, res, next) => {
+export const readOneQuiz: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
-  const topicRepo = getRepository(Topic);
-  const topic = await topicRepo.findOne({
+  const quizRepo = getRepository(Quiz);
+  const quiz = await quizRepo.findOne({
     select: ["id", "title"],
     join: {
-      alias: "topics",
+      alias: "quiz",
       leftJoinAndSelect: {
-        songs: "topics.songs",
+        songs: "quiz.songs",
       },
     },
     where: { id },
   });
-  res.status(200).json({ topic });
+  res.status(200).json({ quiz });
 };

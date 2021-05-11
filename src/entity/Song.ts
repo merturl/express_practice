@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import Topic from "./Topic";
+import Quiz from "./Quiz";
 
 @Entity()
 export default class Song {
@@ -18,7 +18,7 @@ export default class Song {
   @Column({ length: 255 })
   url!: string;
 
-  @ManyToOne((type) => Topic, (topic) => topic.songs)
-  @JoinColumn({ name: "topic_id" })
-  topic!: Topic;
+  @ManyToOne((type) => Quiz, (quiz) => quiz.songs)
+  @JoinColumn({ name: "quiz_id" })
+  quiz!: Quiz;
 }

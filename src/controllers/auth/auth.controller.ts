@@ -4,14 +4,16 @@ import { getRepository } from "typeorm";
 import User from "../../entity/User";
 
 export const validate: RequestHandler = (req, res, next) => {
+  const isLogin = req.path === "/login" ? true : false;
   const schema = Joi.object().keys({
     username: Joi.string().alphanum().min(4).max(15).required(),
     password: Joi.string().required().min(6),
-    confirmPassword: Joi.string().required().valid(Joi.ref("password")),
+    confirmPassword: isLogin
+      ? Joi.string().valid(Joi.ref("password"))
+      : Joi.string().required().valid(Joi.ref("password")),
   });
   const { error } = schema.validate(req.body);
   if (error) return res.status(403).json();
-
   return next();
 };
 
@@ -86,7 +88,6 @@ export const register: RequestHandler = async (req, res, next) => {
 
 export const unregister: RequestHandler = async (req, res, next) => {
   const { user } = req.body;
-  console.log(user);
   if (!user) {
     return res.status(401).json();
   }

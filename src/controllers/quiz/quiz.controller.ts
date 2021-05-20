@@ -26,11 +26,13 @@ export const writeQuiz: RequestHandler = async (req, res, next) => {
   }
   quiz.user = user;
   quiz.songs = [];
+  console.log(songs);
   for (const { title, url } of songs) {
     const song = new Song();
     song.title = title;
     song.url = url;
     quiz.songs.push(song);
+    console.log(song);
     await songRepo.save(song);
   }
   await quizRepo.save(quiz);

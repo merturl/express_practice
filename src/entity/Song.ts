@@ -17,10 +17,10 @@ export default class Song {
 
   @Column({ length: 255 })
   url!: string;
-  @Column()
-  start?: number;
-  @Column()
-  end?: number;
+  @Column({ default: 0 })
+  start!: number;
+  @Column({ default: 0 })
+  end!: number;
 
   @ManyToOne((type) => Quiz, (quiz) => quiz.songs)
   @JoinColumn({ name: "quiz_id" })

@@ -30,7 +30,7 @@ const jwtMiddleware: RequestHandler = (req, res, next) => {
       );
       res.cookie("accessToken", newToken, {
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 30,
       });
     }
     console.log("is OK");

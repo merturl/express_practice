@@ -6,7 +6,12 @@ import User from "../../entity/User";
 
 interface dto {
   title: string;
-  songs: { title: string; url: string }[];
+  songs: {
+    title: string;
+    url: string;
+    start: number;
+    end: number;
+  }[];
 }
 
 export const writeQuiz: RequestHandler = async (req, res, next) => {
@@ -27,12 +32,13 @@ export const writeQuiz: RequestHandler = async (req, res, next) => {
   quiz.user = user;
   quiz.songs = [];
   console.log(songs);
-  for (const { title, url } of songs) {
+  for (const { title, url, start, end } of songs) {
     const song = new Song();
     song.title = title;
     song.url = url;
+    song.start = start;
+    song.end = end;
     quiz.songs.push(song);
-    console.log(song);
     await songRepo.save(song);
   }
   await quizRepo.save(quiz);

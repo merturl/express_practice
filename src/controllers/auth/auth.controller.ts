@@ -4,7 +4,7 @@ import { getRepository } from "typeorm";
 import User from "../../entity/User";
 
 export const validate: RequestHandler = (req, res, next) => {
-  const isLogin = req.path === "/login" ? true : false;
+  const isLogin = req.path === "/login";
   const schema = Joi.object().keys({
     username: Joi.string().alphanum().min(4).max(15).required(),
     password: Joi.string().required().min(6),
@@ -38,7 +38,7 @@ export const login: RequestHandler = async (req, res, next) => {
     const { accessToken } = user.generateUserToken();
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
     });
     return res.status(200).json({
       user: {
@@ -73,7 +73,7 @@ export const register: RequestHandler = async (req, res, next) => {
     const { accessToken } = user.generateUserToken();
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
     });
     return res.status(201).json({
       user: {

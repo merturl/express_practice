@@ -87,21 +87,22 @@ export const register: RequestHandler = async (req, res, next) => {
 };
 
 export const unregister: RequestHandler = async (req, res, next) => {
-  const { user } = req.body;
-  if (!user) {
+  const { id } = req.body;
+  console.log(id);
+  if (!id) {
     return res.status(401).json();
   }
   const userRepo = getRepository(User);
   const existUser = await userRepo.findOne({
     where: {
-      id: user.id,
+      id,
     },
   });
   if (!existUser) {
     return res.status(401).json();
   }
+  await userRepo.delete({ id });
   res.clearCookie("accessToken");
-  await userRepo.delete({ id: user.id });
   return res.status(200).json({ user: null });
 };
 

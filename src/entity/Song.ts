@@ -22,7 +22,9 @@ export default class Song {
   @Column({ default: 0 })
   end!: number;
 
-  @ManyToOne((type) => Quiz, (quiz) => quiz.songs)
+  @ManyToOne((type) => Quiz, (quiz) => quiz.songs, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "quiz_id" })
   quiz!: Quiz;
 }
